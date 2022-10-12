@@ -28,3 +28,39 @@ head(ex1)
 
 word_ex1=table(unlist(ex1))
 df_word_ex1=as.data.frame(word_ex1,stringsAsFactors = F)
+#=p269====
+txt=readLines("hiphop.txt",encoding = "UTF-8")
+library(stringr)
+txt=str_replace_all(txt,"\\w", " ")
+noun=extractNoun(txt)
+wordcount=table(unlist(noun))#unlist로 만들기
+df_word=as.data.frame(wordcount,stringsAsFactors = F)
+library(dplyr)
+df_word=rename(df_word,word=Var1,freq=Freq)#dataframe이름 변경
+df_word=filter(df_word,nchar(word) >=2) #두글자 이상인것을 다시 저장
+
+top2=df_word %>%
+  arrange(desc(freq)) %>%
+  head(2)
+top2
+
+top_20=df_word %>%
+  arrange(desc(freq))%>%
+  head(20)
+library(ggplot2)
+ggplot(top_20,aes(x=word,y=freq)) +
+  geom_col()+
+  coord_flip()
+
+#=====wordcloud============
+install.packages("wordcloud")
+
+library(wordcloud)
+library(RColorBrewer)
+pal=brewer.pal(8,"Dark2")
+set.seed(1234)
+wordcloud(df_word$word,df_word$freq,min.freq=2,max.words=300,
+          random.order=F,
+          rot.per = .1,
+          scale=c(4,0,3), #가장 큰 사이즈는 4 작은사이즈 0.3
+          colors=pal)
