@@ -52,6 +52,16 @@ ggplot(top_20,aes(x=word,y=freq)) +
   geom_col()+
   coord_flip()
 
+#==p273==
+library(KoNLP)
+twitter=read.csv("twitter.csv",header=T,stringsAsFactors = F,fileEncoding = "UTF-8")
+library(dplyr)
+twitter=rename(twitter,no=번호,id=계정이름,date=작성일,tw=내용)
+library(stringr)
+twitter$tw=str_replace_all(twitter,"\\W", " ")
+noun1=extractNoun(twitter$tw)
+wordcount1=table(unlist(noun1))
+df_word1=as.data.frame(wordcount1,stringsAsFactors=F)
 #=====wordcloud============
 install.packages("wordcloud")
 
@@ -64,3 +74,23 @@ wordcloud(df_word$word,df_word$freq,min.freq=2,max.words=300,
           rot.per = .1,
           scale=c(4,0,3), #가장 큰 사이즈는 4 작은사이즈 0.3
           colors=pal)
+
+#============wordcloud2===========
+install.packages("wordcloud2")
+library(wordcloud2)
+
+w_srar=wordcloud2(df_word,color="blue",shape="star")
+w_srar
+w_diamond=wordcloud2(df_word,color="red",shape="diamond")
+w_diamond
+wordcloud2(df_word,color="blue",shape="cardioid")
+
+install.packages("wordcloud2")
+library(wordcloud2)
+
+w_srar=wordcloud2(df_word1,color="blue",shape="star")
+w_srar
+w_diamond=wordcloud2(df_word1,color="red",shape="diamond")
+w_diamond
+wordcloud2(df_word1,color="blue",shape="cardioid")
+
