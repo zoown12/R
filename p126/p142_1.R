@@ -16,7 +16,7 @@ exam %>%
 exam %>%
   mutate(test=ifelse(mean7>=65, "passs","fail")) %>%
   head(10)
-
+#p144 1번
 library(ggplot2)
 mpg<-as.data.frame(ggplot2::mpg)
 mpg
@@ -26,18 +26,26 @@ mpg2=mpg%>%
   head(5)
 mpg2
 
+#2번
 mpg2=mpg2%>%
   mutate(mean=(total/2))
 mpg2
 
+#3번
 mpg2=mpg2%>%
   arrange(desc(mean))%>%
   head(3)
 mpg2
 
+#4번
 mpg3=mpg%>%
   mutate(total=cty+hwy,
          mean=(total)/2)%>%
   arrange(desc(mean))%>%
   head(3)
 mpg3  
+
+
+exam %>% 
+  group_by(class) %>%
+  summarise(mean_math = mean(math))
