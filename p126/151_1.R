@@ -15,14 +15,14 @@ ex10_11
 
 ex10_11_new = ex10 %>%  
               left_join(ex10_11,by="class") %>%
-              mutate(t_N=ifelse(is.na(class),"없어",teacher))
+              mutate(t_N=ifelse(!is.na(class),"없어",teacher))
 ex10_11_new
 
 ex10_1=data.frame(id=c(11,12),class=c(6,2),math=c(50,60),english=c(50,60),science=c(50,60))
 
 ex10_1_ex10=bind_rows(ex10,ex10_1)
 ex10_11_new_1=ex10_1_ex10%>%
-  left_join(ex10_11,by="class")%>%
-  mutate(t_N10=ifelse(is.na(class),"없어요",teacher))
+left_join(ex10_11,by="class")%>%
+  mutate(t_N10=ifelse(!is.na(class),"없어요",teacher))
 
 ex10_11_new_1
